@@ -1,0 +1,8 @@
+## See variables.tf for descriptions
+
+do_token = "X"
+region = "syd1"
+
+app_name = "<your computer-friendly app name>"
+friendly_app_name = "<your human-friendly app name>"
+environment = "<production/staging/development>"
