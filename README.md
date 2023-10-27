@@ -8,7 +8,11 @@ This repository utilises Terraform for automated infrastructure provisioning and
 
 Helm charts enable dynamic Kubernetes configuration and deployments, according to the environment.
 
+With this project being completely open source on Github, ensuring its security will be of utmost importance. The use of secret variables, sealed secrets, firewalls, image vulnerability scanning, etc will be employed.
+
 Cost is a key consideration, and therefore I have chosen to use DigitalOcean as my cloud environment. A similar setup on AWS would be around 5x the cost of DO.
+
+## Requirements and Architecture
 
 ### Need to haves
 
