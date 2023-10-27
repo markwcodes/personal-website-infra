@@ -27,3 +27,44 @@ variable "environment" {
   type        = string
   default     = "development"
 }
+
+variable "primary_domain" {
+  description = "Primary domain name"
+  type        = string
+}
+
+variable "vpc_ip_range" {
+  description = "The range of IP addresses for the VPC"
+  type        = string
+  default     = "172.16.0.0./20"
+}
+
+variable "kubernetes_version" {
+  description = "Kubernetes version number prefix"
+  type        = string
+  default     = "1.28."
+}
+
+variable "node_pool_droplet_size" {
+  description = "Node pool droplet size"
+  type        = string
+  default     = "s-1vcpu-2gb-amd" # Droplet sizes: https://slugs.do-api.dev/
+}
+
+variable "node_pool_auto_scale" {
+  description = "Whether the node pool should auto-scale up and down based on demand"
+  type        = bool
+  default     = true
+}
+
+variable "node_pool_min_nodes" {
+  description = "Minimum number of nodes in node pool"
+  type        = number
+  default     = 1
+}
+
+variable "node_pool_max_nodes" {
+  description = "Maximum number of nodes in node pool"
+  type        = number
+  default     = 5
+}
