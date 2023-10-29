@@ -57,7 +57,7 @@ resource "helm_release" "argocd" {
   repository       = "https://argoproj.github.io/argo-helm"
   chart            = "argo-cd"
   namespace        = "argocd"
-  version          = "5.48.0" # todo: create variable
+  version          = var.argocd_chart_version
   create_namespace = true
 
   values = [
@@ -71,7 +71,7 @@ resource "helm_release" "argocd_app" {
   repository = "https://argoproj.github.io/argo-helm"
   chart      = "argocd-apps"
   namespace  = "argocd"
-  version    = "1.4.1" # todo: create variable
+  version    = var.argocd_apps_chart_version
 
   values = [
     file("argocd/markwcodes.yaml")
