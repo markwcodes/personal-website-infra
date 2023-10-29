@@ -1,0 +1,12 @@
+---
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+resources:
+- deployment.yaml
+- nginx_service.yaml
+
+configMapGenerator:
+  - name: nginx-server-config
+    files:
+      - nginx/default.conf
