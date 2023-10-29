@@ -32,7 +32,7 @@ jobs:
         uses: dflook/terraform-apply@v1
         with:
           path: terraform
-          workspace: ${{ github.head_ref }}
+          workspace: ${{ github.base_ref }}
           backend_config: |
             access_key=${{ secrets.spaces_access_token }}
             secret_key=${{ secrets.spaces_secret_key }}
