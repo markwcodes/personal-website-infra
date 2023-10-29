@@ -1,19 +1,22 @@
-name: Create terraform plan on Pull Request
+name: Apply Terraform plan from Pull Request
 
 on:
-  pull_request:
+  pull_request_target:
+    types:
+      - closed
     branches:
-      - staging
       - production
+      - staging
 
 permissions:
   contents: read
   pull-requests: write
 
 jobs:
-  plan:
+  apply:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    name: Create a plan for an example terraform configuration
+    name: Apply approved plan
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     environment: ${{ github.base_ref }}
@@ -25,11 +28,11 @@ jobs:
         run: |
           echo '${{ vars.tfvars }}' > terraform/terraform.tfvars
 
-      - name: terraform plan
-        uses: dflook/terraform-plan@v1
+      - name: terraform apply
+        uses: dflook/terraform-apply@v1
         with:
           path: terraform
-          workspace: ${{ github.base_ref }}
+          workspace: ${{ github.head_ref }}
           backend_config: |
             access_key=${{ secrets.spaces_access_token }}
             secret_key=${{ secrets.spaces_secret_key }}
