@@ -50,3 +50,30 @@ resource "digitalocean_kubernetes_cluster" "cluster" {
     max_nodes  = var.node_pool_max_nodes
   }
 }
+
+resource "helm_release" "argocd" {
+  name = "argocd"
+
+  repository       = "https://argoproj.github.io/argo-helm"
+  chart            = "argo-cd"
+  namespace        = "argocd"
+  version          = "5.48.0" # todo: create variable
+  create_namespace = true
+
+  values = [
+    file("argocd/config.yaml")
+  ]
+}
+
+resource "helm_release" "argocd_app" {
+  name = var.app_name
+
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argocd-apps"
+  namespace  = "argocd"
+  version    = "1.4.1" # todo: create variable
+
+  values = [
+    file("argocd/markwcodes.yaml")
+  ]
+}

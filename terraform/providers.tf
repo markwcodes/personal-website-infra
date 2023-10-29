@@ -6,6 +6,10 @@ terraform {
       source  = "digitalocean/digitalocean"
       version = "~> 2.3"
     }
+
+    helm = {
+      version = "~> 2.11"
+    }
   }
 
   backend "s3" {
@@ -20,4 +24,14 @@ terraform {
 
 provider "digitalocean" {
   token = var.do_token
+}
+
+provider "helm" { # todo: break out into module
+  kubernetes {
+    host = digitalocean_kubernetes_cluster.cluster.endpoint
+    token = digitalocean_kubernetes_cluster.cluster.kube_config[0].token
+    cluster_ca_certificate = base64decode(
+      digitalocean_kubernetes_cluster.cluster.kube_config[0].cluster_ca_certificate
+    )
+  }
 }

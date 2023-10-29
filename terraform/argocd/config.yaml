@@ -1,0 +1,4 @@
+configs:
+  repositories:
+      personal-website-infra-repo:
+        url: https://github.com/markwcodes/personal-website-infra.git

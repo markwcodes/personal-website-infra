@@ -1,0 +1,19 @@
+applications:
+  - name: markwcodes
+    project: default
+    source:
+      repoURL: https://github.com/markwcodes/personal-website-infra.git
+      targetRevision: HEAD
+      path: gitops-config/manifests/markwcodes-app
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: staging
+    syncPolicy:
+      automated:
+        prune: false
+        selfHeal: false
+      syncOptions:
+      - CreateNamespace=true
+    info:
+    - name: url
+      value: https://staging.wilson.codes
