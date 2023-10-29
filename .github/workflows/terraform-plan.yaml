@@ -1,4 +1,4 @@
-name: Create terraform plan on Pull Request
+name: Create Terraform plan on Pull Request
 
 on:
   pull_request:
@@ -13,7 +13,7 @@ permissions:
 jobs:
   plan:
     runs-on: ubuntu-latest
-    name: Create a plan for an example terraform configuration
+    name: Create a plan from terraform configuration
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     environment: ${{ github.base_ref }}

@@ -16,21 +16,22 @@ Cost is a key consideration, and therefore I have chosen to use DigitalOcean as 
 
 ### Need to haves
 
-- [production](https://github.com/markwcodes/personal-website-infra/tree/production) and [staging](https://github.com/markwcodes/personal-website-infra/tree/staging) infra branches, reflecting both prod and staging environments
-- Terraform deploys resources via Github Actions
-- Argo CD + Argo CD Image Updator
-- Kustomize templating for personal website app
-- Semantic versioning for app images
-- Database-first app deployments
-- Code exception monitoring
+- [x] Support for production and [staging](https://github.com/markwcodes/personal-website-infra/deployments/Staging) environments, with infrastructure state reflected from their respective branches
+- [x] Terraform deploys resources via Github Actions
+- [x] Argo CD with git-ops for personal website app
+- [ ] Argo CD Image Updator
+- [x] Kustomize templating for personal website app
+- [ ] Semantic versioning for app images
+- [ ] Database-first app deployments
+- [ ] Code exception monitoring
 
 ### Nice to haves
 
-- Prometheus monitoring + Grafana
-- Hashicorp vault for secrets
-- Cert Manager and External DNS
-- Kubernetes RBAC
-- VPN for secure access into cloud environment
+- [ ] Prometheus monitoring + Grafana
+- [ ] Hashicorp vault for secrets
+- [ ] Cert Manager and External DNS
+- [ ] Kubernetes RBAC
+- [ ] Bastion/VPN for secure access into cloud environment
 
 ### DigitalOcean Network Diagram
 
@@ -59,28 +60,28 @@ In the DigitalOcean web interface:
 7. Initialise Terraform using the `backend-config.tfvars` file:\
    `terraform init -backend-config=backend-config.tfvars`
 8. Create a new Terraform workspace:\
-   `terraform workspace new production`
+   `terraform workspace new staging`
 9. Check your Space storage to confirm that the remote state file has been added.
 
 #### Alternative ENV based method (for CI/CD environments):
 
 Set these **private** environment variables (Github Actions secrets):
 
-- `TF_VAR_spaces_access_token`
-- `TF_VAR_spaces_secret_key`
-- `TF_VAR_tf_state_bucket`
+- `spaces_access_token`
+- `spaces_secret_key`
+- `tf_state_bucket`
 
 Then run:
 
 ``` bash
 terraform init \
- -backend-config="access_key=$TF_VAR_spaces_access_token" \
- -backend-config="secret_key=$TF_VAR_spaces_secret_key" \
- -backend-config="bucket=$TF_VAR_tf_state_bucket"
+ -backend-config="access_key=$spaces_access_token" \
+ -backend-config="secret_key=$spaces_secret_key" \
+ -backend-config="bucket=$tf_state_bucket"
 ```
 
 ### Terraform Plan, Build, and Deployment
 
-Github Actions will handle plans and deployments when changes are made to any Terraform files or configuration files. A comment will be left in the Pull Request with the Terraform plan. If the plan has no errors, you can approve the deployment in the Action workflow.
+Github Actions will handle plans and deployments when changes are made to any Terraform files or configuration files. A comment containing the Terraform plan will be added to the Pull Request. If the plan has no errors, you can apply the plan by merging the Pull Request.
 
-Terraform infrastructure changes should always be done from a single location (Github Actions) for safety and consistency of state. However if you configure your local environment with the same environment variables it is possible to manage infrastructure changes from your machine, if manual intervention is required.
+Note: Terraform infrastructure changes should always be done from a single location (Github Actions) for safety and consistency of state. However if you configure your local environment with the same environment variables it is possible to manage infrastructure changes from your machine, if manual intervention is required.
