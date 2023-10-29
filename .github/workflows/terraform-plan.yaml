@@ -12,9 +12,14 @@ jobs:
     name: Create a plan for an example terraform configuration
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    environment: ${{ github.base_ref }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: 'Create tfvar file'
+        run: |
+          echo '${{ vars.tfvars }}' > terraform/terraform.tfvars
 
       - name: terraform plan
         uses: dflook/terraform-plan@v1
@@ -22,8 +27,10 @@ jobs:
           path: terraform
           workspace: ${{ github.base_ref }}
           backend_config: |
-            access_key="${{ secrets.TF_VAR_spaces_access_token }}"
-            secret_key="${{ secrets.TF_VAR_spaces_secret_key }}"
-            bucket="${{ secrets.TF_VAR_tf_state_bucket }}"
+            access_key=${{ secrets.spaces_access_token }}
+            secret_key=${{ secrets.spaces_secret_key }}
+            bucket=${{ secrets.tf_state_bucket }}
           variables: |
-            do_token="${{ secrets.TF_VAR_DO_TOKEN }}"
+            do_token="${{ secrets.DO_TOKEN }}"
+          var_file: |
+            terraform/terraform.tfvars
