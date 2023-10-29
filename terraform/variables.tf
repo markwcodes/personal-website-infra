@@ -36,7 +36,7 @@ variable "primary_domain" {
 variable "vpc_ip_range" {
   description = "The range of IP addresses for the VPC"
   type        = string
-  default     = "172.16.0.0./20"
+  default     = "172.16.0.0/20"
 }
 
 variable "kubernetes_version" {
@@ -67,4 +67,16 @@ variable "node_pool_max_nodes" {
   description = "Maximum number of nodes in node pool"
   type        = number
   default     = 5
+}
+
+variable "argocd_chart_version" {
+  description = "Argo CD 'argo-cd' Helm chart version"
+  type        = string
+  default     = "5.48.0"
+}
+
+variable "argocd_apps_chart_version" {
+  description = "Argo CD 'argocd-apps' Helm chart version"
+  type        = string
+  default     = "1.4.1"
 }
