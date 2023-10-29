@@ -17,6 +17,12 @@ resource "digitalocean_domain" "primary_domain" {
   name = var.primary_domain
 }
 
+resource "digitalocean_certificate" "primary_domain_cert" {
+  name = format("%s-%s", var.environment, var.primary_domain)
+  type    = "lets_encrypt"
+  domains = [var.primary_domain]
+}
+
 resource "digitalocean_vpc" "vpc" {
   name     = format("%s-network-%s", var.app_name, var.environment)
   region   = var.region
