@@ -21,4 +21,9 @@ jobs:
         with:
           path: terraform
           workspace: ${{ github.base_ref }}
-          backend_config: access_key=${{ secrets.TF_VAR_spaces_access_token }},secret_key=${{ secrets.TF_VAR_spaces_secret_key }},bucket=${{ secrets.TF_VAR_tf_state_bucket }}
+          backend_config: |
+            access_key=${{ secrets.TF_VAR_spaces_access_token }}
+            secret_key=${{ secrets.TF_VAR_spaces_secret_key }}
+            bucket=${{ secrets.TF_VAR_tf_state_bucket }}
+          variables: |
+            do_token=${{ secrets.TF_VAR_DO_TOKEN }}
