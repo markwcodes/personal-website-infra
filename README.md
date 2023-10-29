@@ -19,7 +19,7 @@ Cost is a key consideration, and therefore I have chosen to use DigitalOcean as 
 - [production](https://github.com/markwcodes/personal-website-infra/tree/production) and [staging](https://github.com/markwcodes/personal-website-infra/tree/staging) infra branches, reflecting both prod and staging environments
 - Terraform deploys resources via Github Actions
 - Argo CD + Argo CD Image Updator
-- Helm chart for personal website app
+- Kustomize templating for personal website app
 - Semantic versioning for app images
 - Database-first app deployments
 - Code exception monitoring
@@ -80,5 +80,7 @@ terraform init \
 ```
 
 ### Terraform Plan, Build, and Deployment
+
+Github Actions will handle plans and deployments when changes are made to any Terraform files or configuration files. A comment will be left in the Pull Request with the Terraform plan. If the plan has no errors, you can approve the deployment in the Action workflow.
 
 Terraform infrastructure changes should always be done from a single location (Github Actions) for safety and consistency of state. However if you configure your local environment with the same environment variables it is possible to manage infrastructure changes from your machine, if manual intervention is required.
