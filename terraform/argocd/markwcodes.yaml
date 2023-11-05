@@ -10,10 +10,10 @@ applications:
       namespace: staging
     syncPolicy:
       automated:
-        prune: false
+        prune: true
         selfHeal: false
       syncOptions:
-      - CreateNamespace=true
+        - CreateNamespace=true
     info:
-    - name: url
-      value: https://staging.wilson.codes
+      - name: url
+        value: https://staging.wilson.codes

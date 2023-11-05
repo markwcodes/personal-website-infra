@@ -82,4 +82,19 @@ resource "helm_release" "argocd_app" {
   values = [
     file("argocd/markwcodes.yaml")
   ]
+
+  set {
+    name  = "applications[0].source.targetRevision"
+    value = var.environment
+  }
+
+  set {
+    name  = "applications[0].destination.namespace"
+    value = var.environment
+  }
+  
+  set {
+    name  = "applications[0].info[0].value"
+    value = "https://${var.primary_domain}"
+  }
 }
