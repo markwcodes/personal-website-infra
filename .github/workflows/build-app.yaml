@@ -20,11 +20,14 @@ jobs:
       with:
         repository: ${{ env.APP_REPO }}
         ref: ${{ env.BUILD_REF }}
+    - name: Set outputs from checkout
+      id: vars
+      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
     - name: Checkout build tools
       uses: actions/checkout@v4
       with:
         repository: ${{ env.APP_REPO }}
-        # ref: ${{ github.ref }}
+        ref: ${{ github.ref }}
         sparse-checkout: |
           docker/markwcodes-app
     - name: Docker meta
