@@ -28,3 +28,6 @@ COPY --from=vendor /tmp/vendor/ /var/www/html/vendor/
 WORKDIR /var/www/html/
 RUN chmod -R 775 storage
 RUN php artisan storage:link
+
+# Build front-end
+RUN npm run build
