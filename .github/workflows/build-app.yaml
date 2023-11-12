@@ -54,11 +54,11 @@ jobs:
         file: docker/markwcodes-app
         push: true
         build-args: |
-          APP_VERSION=${{ env.APP_VERSION }}
+          APP_VERSION=${{ env.INPUT_APP_VERSION }}
           COMMIT_HASH=${{ github.sha }}
         labels: ${{ steps.meta.outputs.labels }}
         # tags: ${{ steps.meta.outputs.tags }}
         tags: |
           ${{ env.REGISTRY }}/${{ env.APP_REPO }}:latest
-          ${{ env.REGISTRY }}/${{ env.APP_REPO }}:${{ env.APP_VERSION }}
+          ${{ env.REGISTRY }}/${{ env.APP_REPO }}:${{ env.INPUT_APP_VERSION }}
           ${{ env.REGISTRY }}/${{ github.repository }}:${{ steps.vars.outputs.sha_short }}
