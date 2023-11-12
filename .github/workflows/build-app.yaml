@@ -26,8 +26,6 @@ jobs:
     - name: Checkout build tools
       uses: actions/checkout@v4
       with:
-        repository: ${{ env.APP_REPO }}
-        ref: ${{ github.ref }}
         sparse-checkout: |
           docker/markwcodes-app
     - name: Docker meta
