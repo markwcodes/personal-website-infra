@@ -60,5 +60,5 @@ jobs:
         # tags: ${{ steps.meta.outputs.tags }}
         tags: |
           ${{ env.REGISTRY }}/${{ env.APP_REPO }}:latest
-          ${{ env.REGISTRY }}/${{ env.APP_REPO }}:${{ env.INPUT_APP_VERSION }}
+          ${{ env.REGISTRY }}/${{ env.APP_REPO }}:${{ github.event.inputs.app_version }}
           ${{ env.REGISTRY }}/${{ github.repository }}:${{ steps.vars.outputs.sha_short }}
