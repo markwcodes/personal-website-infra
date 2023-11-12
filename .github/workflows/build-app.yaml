@@ -51,7 +51,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v4
       with:
-        file: docker/markwcodes-app
+        file: docker/markwcodes-app/Dockerfile
         push: true
         build-args: |
           APP_VERSION=${{ env.INPUT_APP_VERSION }}
