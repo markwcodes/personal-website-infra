@@ -2,8 +2,8 @@ name: Build and Publish App
 on:
   workflow_dispatch:
     inputs:
-      build_version:
-        description: "Build version with semantic versioning without the 'v' (1.2.3)"
+      app_version:
+        description: "App version using semantic versioning without the 'v' (1.2.3)"
         required: false
         default: 'latest'
 env:
@@ -52,9 +52,12 @@ jobs:
       with:
         file: docker/markwcodes-app
         push: true
+        build-args: |
+          APP_VERSION=${{ env.APP_VERSION }}
+          COMMIT_HASH=${{ github.sha }}
         labels: ${{ steps.meta.outputs.labels }}
         # tags: ${{ steps.meta.outputs.tags }}
         tags: |
           ${{ env.REGISTRY }}/${{ env.APP_REPO }}:latest
-          ${{ env.REGISTRY }}/${{ env.APP_REPO }}:${{ env.BUILD_VERSION }}
+          ${{ env.REGISTRY }}/${{ env.APP_REPO }}:${{ env.APP_VERSION }}
           ${{ env.REGISTRY }}/${{ github.repository }}:${{ steps.vars.outputs.sha_short }}
