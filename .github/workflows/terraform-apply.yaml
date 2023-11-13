@@ -39,5 +39,6 @@ jobs:
             bucket=${{ secrets.tf_state_bucket }}
           variables: |
             do_token="${{ secrets.DO_TOKEN }}"
+            app_key="${{ secrets.app_key }}"
           var_file: |
             terraform/terraform.tfvars
