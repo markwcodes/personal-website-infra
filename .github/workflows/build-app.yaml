@@ -15,11 +15,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout build tools
-      uses: actions/checkout@v4
-      with:
-        sparse-checkout: |
-          docker/markwcodes-app
     - name: Checkout app repo
       uses: actions/checkout@v4
       with:
@@ -28,17 +23,11 @@ jobs:
     - name: Set outputs from checkout
       id: vars
       run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-    - name: Docker meta
-      id: meta
-      uses: docker/metadata-action@v5
+    - name: Checkout build tools
+      uses: actions/checkout@v4
       with:
-        context: git
-        images: ${{ env.REGISTRY }}/${{ env.APP_REPO }}
-        # tags: |
-        #   type=semver,pattern={{version}}
-        #   type=semver,pattern={{major}}.{{minor}}
-        #   type=semver,pattern={{major}}
-        #   type=sha
+        sparse-checkout: |
+          docker/markwcodes-app
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
     - name: Set up Docker Buildx
@@ -59,7 +48,6 @@ jobs:
           APP_VERSION=${{ env.INPUT_APP_VERSION }}
           COMMIT_HASH=${{ github.sha }}
         labels: ${{ steps.meta.outputs.labels }}
-        # tags: ${{ steps.meta.outputs.tags }}
         tags: |
           ${{ env.REGISTRY }}/${{ env.APP_REPO }}:latest
           ${{ env.REGISTRY }}/${{ env.APP_REPO }}:${{ github.event.inputs.app_version }}
