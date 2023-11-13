@@ -26,6 +26,7 @@ jobs:
     - name: Checkout build tools
       uses: actions/checkout@v4
       with:
+        path: infra
         sparse-checkout: |
           docker/markwcodes-app
     - name: Set up QEMU
@@ -41,7 +42,7 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
-        file: docker/markwcodes-app/Dockerfile
+        file: infra/docker/markwcodes-app/Dockerfile
         context: .
         push: true
         build-args: |
