@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: php-fpm
-        image: php:8.2-fpm-alpine # todo: replace with my app image
+        image: ghcr.io/markwcodes/personal-website:1.0.1
         ports:
         - containerPort: 9000
         # envFrom:
