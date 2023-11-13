@@ -29,5 +29,9 @@ WORKDIR /var/www/html/
 RUN chmod -R 775 storage
 RUN php artisan storage:link
 
+# Setup Node
+ENV NODE_VERSION 20
+RUN apk add npm
+
 # Build front-end
-RUN npm run build
+RUN npm install && npm run build
