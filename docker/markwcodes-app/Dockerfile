@@ -18,6 +18,12 @@ RUN composer install \
 FROM php:8.2-fpm-alpine
 LABEL org.opencontainers.image.source=https://github.com/markwcodes/personal-website
 
+# Add CD build environment variables
+ARG APP_VERSION
+ENV APP_VERSION=$APP_VERSION
+ARG COMMIT_SHORT_HASH
+ENV COMMIT_SHORT_HASH=$COMMIT_SHORT_HASH
+
 # Copy project files into web root
 COPY . /var/www/html
 
