@@ -21,8 +21,8 @@ LABEL org.opencontainers.image.source=https://github.com/markwcodes/personal-web
 # Add CD build environment variables
 ARG APP_VERSION
 ENV APP_VERSION=$APP_VERSION
-ARG COMMIT_SHORT_HASH
-ENV COMMIT_SHORT_HASH=$COMMIT_SHORT_HASH
+ARG SHORT_COMMIT_HASH
+ENV SHORT_COMMIT_HASH=$SHORT_COMMIT_HASH
 
 # Copy project files into web root
 COPY . /var/www/html

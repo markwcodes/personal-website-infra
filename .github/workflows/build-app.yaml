@@ -51,7 +51,7 @@ jobs:
         push: true
         build-args: |
           APP_VERSION=${{ github.event.inputs.app_version }}
-          COMMIT_HASH=${{ steps.vars.outputs.sha_short }}
+          SHORT_COMMIT_HASH=${{ steps.vars.outputs.sha_short }}
         tags: |
           ${{ env.REGISTRY }}/${{ env.APP_REPO }}:latest
           ${{ env.REGISTRY }}/${{ env.APP_REPO }}:${{ github.event.inputs.app_version }}
