@@ -32,6 +32,7 @@ jobs:
       id: meta
       uses: docker/metadata-action@v5
       with:
+        context: git
         images: ${{ env.REGISTRY }}/${{ env.APP_REPO }}
         # tags: |
         #   type=semver,pattern={{version}}
@@ -49,9 +50,10 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     - name: Build and push
-      uses: docker/build-push-action@v4
+      uses: docker/build-push-action@v5
       with:
         file: docker/markwcodes-app/Dockerfile
+        context: .
         push: true
         build-args: |
           APP_VERSION=${{ env.INPUT_APP_VERSION }}
@@ -61,4 +63,4 @@ jobs:
         tags: |
           ${{ env.REGISTRY }}/${{ env.APP_REPO }}:latest
           ${{ env.REGISTRY }}/${{ env.APP_REPO }}:${{ github.event.inputs.app_version }}
-          ${{ env.REGISTRY }}/${{ github.repository }}:${{ steps.vars.outputs.sha_short }}
+          ${{ env.REGISTRY }}/${{ env.APP_REPO }}:${{ steps.vars.outputs.sha_short }}
