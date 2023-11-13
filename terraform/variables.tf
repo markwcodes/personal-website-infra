@@ -80,3 +80,9 @@ variable "argocd_apps_chart_version" {
   type        = string
   default     = "1.4.1"
 }
+
+variable "app_key" {
+  description = "Laravel's encryption key"
+  type        = string
+  sensitive   = true
+}

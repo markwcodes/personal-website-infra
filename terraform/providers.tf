@@ -11,6 +11,11 @@ terraform {
       source  = "hashicorp/helm"
       version = "~> 2.11"
     }
+
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+      version = "~> 2.23"
+    }
   }
 
   backend "s3" {
@@ -27,7 +32,8 @@ provider "digitalocean" {
   token = var.do_token
 }
 
-provider "helm" { # todo: break out into module
+# todo: break out into modules
+provider "helm" { 
   kubernetes {
     host = digitalocean_kubernetes_cluster.cluster.endpoint
     token = digitalocean_kubernetes_cluster.cluster.kube_config[0].token
@@ -35,4 +41,12 @@ provider "helm" { # todo: break out into module
       digitalocean_kubernetes_cluster.cluster.kube_config[0].cluster_ca_certificate
     )
   }
+}
+
+provider "kubernetes" {
+  host = digitalocean_kubernetes_cluster.cluster.endpoint
+  token = digitalocean_kubernetes_cluster.cluster.kube_config[0].token
+  cluster_ca_certificate = base64decode(
+    digitalocean_kubernetes_cluster.cluster.kube_config[0].cluster_ca_certificate
+  )
 }

@@ -32,12 +32,14 @@ spec:
         - name: shared-volume
           mountPath: /var/www/markwcodes
       - name: php-fpm
-        image: ghcr.io/markwcodes/personal-website:1.0.2
+        image: ghcr.io/markwcodes/personal-website:1.0.4
         ports:
         - containerPort: 9000
-        # envFrom:
-        # - configMapRef:
-        #     name: 
+        envFrom:
+        - configMapRef:
+            name: app-config
+        - secretRef:
+            name: app-secrets
         volumeMounts:
         - name: shared-volume
           mountPath: /var/www/markwcodes
