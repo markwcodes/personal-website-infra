@@ -15,6 +15,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout build tools
+      uses: actions/checkout@v4
+      with:
+        sparse-checkout: |
+          docker/markwcodes-app
     - name: Checkout app repo
       uses: actions/checkout@v4
       with:
@@ -23,11 +28,6 @@ jobs:
     - name: Set outputs from checkout
       id: vars
       run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-    - name: Checkout build tools
-      uses: actions/checkout@v4
-      with:
-        sparse-checkout: |
-          docker/markwcodes-app
     - name: Docker meta
       id: meta
       uses: docker/metadata-action@v5
