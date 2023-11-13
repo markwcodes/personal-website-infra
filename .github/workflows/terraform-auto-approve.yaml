@@ -1,0 +1,41 @@
+name: Terraform Manual Apply
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to manually deploy in"
+        type: environment
+        required: true
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    name: Apply terraform
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: 'Create tfvars file'
+        run: |
+          echo '${{ vars.tfvars }}' > terraform/terraform.tfvars
+
+      - name: terraform apply
+        uses: dflook/terraform-apply@v1
+        with:
+          path: terraform
+          auto_approve: true
+          workspace: ${{ github.event.inputs.environment }}
+          backend_config: |
+            access_key=${{ secrets.spaces_access_token }}
+            secret_key=${{ secrets.spaces_secret_key }}
+            bucket=${{ secrets.tf_state_bucket }}
+          variables: |
+            do_token="${{ secrets.DO_TOKEN }}"
+            app_key="${{ secrets.app_key }}"
+          var_file: |
+            terraform/terraform.tfvars
+
