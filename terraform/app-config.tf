@@ -1,3 +1,17 @@
+resource "kubernetes_namespace" "app_namespace" {
+  metadata {
+    annotations = {
+      name = var.environment
+    }
+
+    labels = {
+      app = var.app_name
+    }
+
+    name = var.environment
+  }
+}
+
 resource "kubernetes_config_map" "app_config_map" {
   metadata {
     name = "app-config" # todo figure how to make name dynamic 
