@@ -13,7 +13,7 @@ applications:
         prune: true
         selfHeal: false
       syncOptions:
-        - CreateNamespace=true
+        - CreateNamespace=false
     info:
       - name: url
         value: https://staging.wilson.codes

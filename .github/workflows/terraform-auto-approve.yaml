@@ -1,22 +1,20 @@
-name: Create Terraform plan on Pull Request
+name: Terraform Manual Apply
 
 on:
-  pull_request:
-    branches:
-      - staging
-      - production
-
-permissions:
-  contents: read
-  pull-requests: write
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to manually deploy in"
+        type: environment
+        required: true
 
 jobs:
-  plan:
+  apply:
     runs-on: ubuntu-latest
-    name: Create a plan from terraform configuration
+    name: Apply terraform
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    environment: ${{ github.base_ref }}
+    environment: ${{ github.event.inputs.environment }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,11 +23,12 @@ jobs:
         run: |
           echo '${{ vars.tfvars }}' > terraform/terraform.tfvars
 
-      - name: terraform plan
-        uses: dflook/terraform-plan@v1
+      - name: terraform apply
+        uses: dflook/terraform-apply@v1
         with:
           path: terraform
-          workspace: ${{ github.base_ref }}
+          auto_approve: true
+          workspace: ${{ github.event.inputs.environment }}
           backend_config: |
             access_key=${{ secrets.spaces_access_token }}
             secret_key=${{ secrets.spaces_secret_key }}
@@ -39,3 +38,4 @@ jobs:
             app_key="${{ secrets.app_key }}"
           var_file: |
             terraform/terraform.tfvars
+
