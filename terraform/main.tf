@@ -21,6 +21,8 @@ resource "digitalocean_certificate" "primary_domain_cert" {
   name = format("%s-%s", var.environment, var.primary_domain)
   type    = "lets_encrypt"
   domains = [var.primary_domain]
+
+  depends_on = [digitalocean_domain.primary_domain]
 }
 
 resource "digitalocean_vpc" "vpc" {
@@ -57,6 +59,20 @@ resource "digitalocean_kubernetes_cluster" "cluster" {
   }
 }
 
+resource "kubernetes_namespace" "app_namespace" {
+  metadata {
+    annotations = {
+      name = var.environment
+    }
+
+    labels = {
+      app = var.app_name
+    }
+
+    name = var.environment
+  }
+}
+
 resource "helm_release" "argocd" {
   name = "argocd"
 
@@ -69,6 +85,8 @@ resource "helm_release" "argocd" {
   values = [
     file("argocd/config.yaml")
   ]
+
+  depends_on = [kubernetes_namespace.app_namespace]
 }
 
 resource "helm_release" "argocd_app" {
