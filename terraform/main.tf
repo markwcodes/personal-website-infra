@@ -115,4 +115,6 @@ resource "helm_release" "argocd_app" {
     name  = "applications[0].info[0].value"
     value = "https://${var.primary_domain}"
   }
+
+  depends_on = [kubernetes_namespace.app_namespace, helm_release.argocd]
 }
